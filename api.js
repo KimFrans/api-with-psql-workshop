@@ -44,7 +44,7 @@ module.exports = function (app, db) {
 			let params = { ...garment, ...req.body };
 			const { description, price, img, season, gender } = params;
 
-			await db.none('update garment set $1 where id = $2', [params, id])
+			await db.oneOrNone('update garment set gender = $1 where id = $2', ["Unisex", id])
 
 
 			res.json({
@@ -92,6 +92,7 @@ module.exports = function (app, db) {
 
 			// insert a new garment in the database
 			// await db.none(`insert into garment (description, img, season, gender, price) values ('Tank top', 'tank-128x128-455134.png', 'Winter', 'Female', '49.99')`);
+			await db.none(`insert into garment (description, img, season, gender, price) values ($1, $2, $3, $4, $5)`, [description, img, season, gender, price]);
 
 
 			res.json({
@@ -108,9 +109,9 @@ module.exports = function (app, db) {
 	});
 
 	app.get('/api/garments/grouped', async function (req, res) {
-		const result = []		
+		let result = []		
 		// use group by query with order by asc on count(*)
-		result = await db.many('select count(*) from garment group by gender order by asc')
+		result = await db.many('select count(*), gender from garment group by gender order by count(*) asc');
 		
 		res.json({
 			data: result
@@ -123,6 +124,7 @@ module.exports = function (app, db) {
 		try {
 			const { gender } = req.query;
 			// delete the garments with the specified gender
+			db.many('delete from garment where gender = $1', [gender])
 
 			res.json({
 				status: 'success'
