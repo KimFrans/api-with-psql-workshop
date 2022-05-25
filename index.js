@@ -18,6 +18,25 @@ const DATABASE_URL = process.env.DATABASE_URL;
 const pgp = PgPromise({});
 const db = pgp(DATABASE_URL);
 
+// const { DATABASE_URL } = process.env;
+// const cs = new ConnectionString(DATABASE_URL);
+ 
+// function get_PostgreSQL_connection() {
+//    return {
+//        host: cs.hostname,
+//        port: cs.port,
+//        database: cs.path?.[0],
+//        user: cs.user,
+//        password: cs.password,
+//        ssl: DATABASE_URL.includes('localhost') ? false : {rejectUnauthorized: false},
+//        application_name: cs.params?.application_name
+//    };
+// }
+ 
+// const pgp = PgPromise({});
+ 
+// const db = pgp(get_PostgreSQL_connection());
+
 const garments = require('./garments.json');
 
 const PORT = process.env.PORT || 3000;
