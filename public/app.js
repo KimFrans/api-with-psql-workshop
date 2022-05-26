@@ -6,6 +6,11 @@ document.addEventListener('alpine:init', () => {
         gender:'',
         season:'',
         price:'',
+        priceField:'',
+        description:'', 
+        img:'',
+        genderField:'',
+        seasonField:'',
 
         data(){
             axios
@@ -25,19 +30,22 @@ document.addEventListener('alpine:init', () => {
 
 
         filterPrice(){
-            if (this.price > 0) {
-                return this.garment.price <= this.price;
-            }
-            axios.get(`/api/garments/price/${this.price}`)
-            .then(r =>
-                {this.garments = r.data.data})
+            axios
+                .get(`/api/garments/price/${this.price}`)
+                .then(r =>
+                    {this.garments = r.data.data})
         },
 
         addGarment(){
+            // this.description,
+            // this.img
+            // this.seasonField
+            // this.genderField
+            // this.priceField
             axios
-            .post('/api/garment/')
-            .then( 
-                {})
+                .post('/api/garment/')
+                .then(r =>
+                    {this.garments = r.data.data });
         },
 
     }))
