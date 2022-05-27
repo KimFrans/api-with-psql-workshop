@@ -96,7 +96,7 @@
 						<div class="add garment">
 							<h2>Add garment</h2>
 							<!-- <img :src="/images/{{img}}" alt=""> -->
-							<!-- <img :src="`/images/${garment.img}`"> -->
+							<!-- <img :src="`images/${img}`"> -->
 			
 							<!-- <form action="/garment/" method="post" class="addGarmentForm" > -->
 								
@@ -125,7 +125,8 @@
 									</div>
 								</div>
 								<div class="mt1">
-									<input class="btn btn-primary btn-sm" type="button" name="action" value="Add" class="addGarmentBtn" @click="addGarment()" >
+									<button class="btn btn-primary btn-sm" type="button" name="action" value="Add" class="addGarmentBtn" @click="addGarment()" >Add</button>
+									<!-- <input class="btn btn-primary btn-sm" type="button" name="action" value="Add" class="addGarmentBtn" @click="addGarment()" > -->
 									<input class="btn btn-primary btn-sm" type="button" name="action" value="Hide" @click="open = ! open" class="hideAddGarmetBtn" >
 								</div>
 							<!-- </form> -->

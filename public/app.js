@@ -6,11 +6,12 @@ document.addEventListener('alpine:init', () => {
         gender:'',
         season:'',
         price:'',
-        priceField:'',
-        description:'', 
-        img:'',
-        genderField:'',
+        
+        description:'',
+        img: '',
         seasonField:'',
+        genderField:'',
+        priceField:'',
 
         data(){
             axios
@@ -33,19 +34,27 @@ document.addEventListener('alpine:init', () => {
             axios
                 .get(`/api/garments/price/${this.price}`)
                 .then(r =>
-                    {this.garments = r.data.data})
+                    {this.garments = r.data.data })
         },
 
+        
         addGarment(){
-            // this.description,
-            // this.img
-            // this.seasonField
-            // this.genderField
-            // this.priceField
+            const fields= {
+                description: this.description,
+                img: this.img,
+                season: this.seasonField,
+                gender: this.genderField,
+                price: this.priceField,
+            }
+
             axios
-                .post('/api/garment/')
+                .post('/api/garment/', fields)
                 .then(r =>
-                    {this.garments = r.data.data });
+                    { axios
+                        .get('/api/garments')
+                        .then(r => 
+                            {this.garments = r.data.data }) 
+                    });
         },
 
     }))
