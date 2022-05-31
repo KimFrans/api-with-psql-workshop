@@ -11,6 +11,7 @@ app.use(express.urlencoded({ extended: false }));
 
 const DATABASE_URL = process.env.DATABASE_URL;
 const pgp = PgPromise({});
+// const db = pgp(DATABASE_URL);
 const db = pgp({connectionString: DATABASE_URL, 
 			max:30,
 		ssl: {rejectUnauthorized : false}

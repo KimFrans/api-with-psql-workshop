@@ -57,12 +57,10 @@ img {
 
 }
 
-#snack {
+/* #snack {
 	visibility: hidden;
 	min-width: 250px;
 	margin-left: -125px;
-	/* background-color: rgb(243, 108, 30); */
-	/* background-color: rgb(72, 125, 204); */
 	color: #fff;
 	text-align: center;
 	border-radius: 2px;
@@ -78,7 +76,7 @@ img {
 	visibility: visible;
 	-webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
 	animation: fadein 0.5s, fadeout 0.5s 2.5s;
-}
+} */
 
 .success{
 	background-color: rgb(61, 182, 61);
@@ -91,6 +89,78 @@ img {
 .hidden {
 	display: none;
 }
+
+.delete{
+	border: none;
+	background-color: beige;
+	font-size: 1.3rem;
+}
+
+.snack {
+	visibility: hidden;
+	min-width: 250px;
+	margin-left: -125px;
+	color: #fff;
+	text-align: center;
+	border-radius: 2px;
+	padding: 16px;
+	position: fixed;
+	z-index: 1;
+	left: 50%;
+	bottom: 30px;
+	font-size: 17px;
+}
+  
+.snack.show {
+	visibility: visible;
+	-webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+	animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+.snackError {
+	visibility: hidden;
+	min-width: 250px;
+	margin-left: -125px;
+	/* background-color: rgb(243, 108, 30); */
+	/* background-color: rgb(72, 125, 204); */
+	color: rgb(235, 197, 197);
+	text-align: center;
+	border-radius: 2px;
+	padding: 16px;
+	position: fixed;
+	z-index: 1;
+	left: 50%;
+	bottom: 30px;
+	font-size: 17px;
+	background-color: black;
+}
+  
+.snackError.show {
+	visibility: visible;
+	-webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+	animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+
+.message {
+	background-color: lightgoldenrodyellow;
+	/* height: 2em; */
+	/* width: 10em; */
+	color: green;
+	font-weight: bold;
+	/* margin-bottom: 1em; */
+	/* text-align:"center"; */
+	/* padding: 1em; */
+}
+
+.error {
+	background-color : lightgoldenrodyellow;
+	color: red;
+	font-weight: bold;
+	/* text-align: center; */
+}
+
+
   
 @-webkit-keyframes fadein {
 	from {bottom: 0; opacity: 0;} 

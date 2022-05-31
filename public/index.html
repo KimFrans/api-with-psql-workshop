@@ -18,7 +18,7 @@
 </head>
 <body x-data="garmentData">
 
-	<div class="container" x-data="{maxPrice:'' }" x-init="data()">
+	<div class="container" x-init="data()">
 		<h1>Missy Tee - clothing store</h1>
 		<div class="usermessage" >
 
@@ -77,10 +77,11 @@
 			<div class="message hidden" >
 	
 			</div>
-	
-			<div id="snack" >
-	
-			</div>
+
+			<div class="snackError" x-bind:class="show ? 'show' : ''" x-text="info_message"></div>
+			<!-- <div class="snack" x-bind:class="snackError ? 'snackError' : ''" x-text="info_message"></div> -->
+			<div class="message" x-bind:class="error ? 'error' : ''" x-text="info_message"></div>
+				
 
 			<div x-data="{ open: false }">
 				<button class="btn btn-outline-primary" x-on:click="open = ! open">Add Garment</button>
@@ -125,7 +126,7 @@
 									</div>
 								</div>
 								<div class="mt1">
-									<button class="btn btn-primary btn-sm" type="button" name="action" value="Add" class="addGarmentBtn" @click="addGarment()" >Add</button>
+									<button class="btn btn-primary btn-sm" type="button" name="action" value="Add" class="addGarmentBtn" @click="addGarment(), open = ! open" >Add</button>
 									<!-- <input class="btn btn-primary btn-sm" type="button" name="action" value="Add" class="addGarmentBtn" @click="addGarment()" > -->
 									<input class="btn btn-primary btn-sm" type="button" name="action" value="Hide" @click="open = ! open" class="hideAddGarmetBtn" >
 								</div>
@@ -145,6 +146,7 @@
 					
 					<template x-for="garment in garments" >
 						<div class="garment">
+							<button class="delete" @click="deleteGarment(garment.id)"><ion-icon name="trash"></ion-icon></button>
 							<img x-bind:src="`images/${garment.img}`"><br>
 							<span x-text="garment.description" ></span><br>
 							<span x-text="garment.price" ></span>
@@ -161,6 +163,9 @@
 		</div>
 		
 	</div>
+
+	<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+	<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 	
 </body>
 </html>
