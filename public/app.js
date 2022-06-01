@@ -77,9 +77,6 @@ document.addEventListener('alpine:init', () => {
                 // this.snackError.className = "show";
 
                 // this.snackError = true;
-
-                // this.info_message = 'Required data not supplied!'
-                // this.snackError = true;
                 console.log('Required data not supplied!');
             }
 
