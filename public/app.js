@@ -2,6 +2,7 @@ document.addEventListener('alpine:init', () => {
     Alpine.data('garmentData', () => ({
 
         garments : [],
+        length:'',
         
         gender:'',
         season:'',
@@ -14,11 +15,9 @@ document.addEventListener('alpine:init', () => {
         priceField:'',
 
         deleteItem:'',
-        // deletedMessage:'Item deleted',
-        // errorMessage: 'Required data not supplied!', 
-        // successMessage: 'Garment Added',
         info_message : '',
         error : false,
+
 
         data(){
             axios
@@ -28,11 +27,22 @@ document.addEventListener('alpine:init', () => {
 
         },
 
+        totalGarments(){
+            axios
+                .get('/api/garments/count')
+                .then(r => 
+                    {this.length = r.data.data.count })
+                    console.log(this.length);
+                    
+        },
+
         filter(){
             axios
                 .get(`/api/garments?gender=${this.gender}&season=${this.season}`)
                 .then(r =>
-                    {this.garments = r.data.data });
+                    {
+                        this.garments = r.data.data 
+                    });
 
         },
 
@@ -62,9 +72,16 @@ document.addEventListener('alpine:init', () => {
                             .get('/api/garments')
                             .then(r => 
                                 {this.garments = r.data.data }) 
+                                this.totalGarments()
                         });
                 this.info_message = 'Garment Added!'
                 this.error = false;
+
+                this.description = ''
+                this.img = ''
+                this.seasonField = ''
+                this.genderField = ''
+                this.priceField = ''
 
                 // this.$refs.snack.innerHTML = 'Garment Added'
                 console.log('Garment Added');
@@ -76,8 +93,13 @@ document.addEventListener('alpine:init', () => {
                 this.error = true;
                 // this.snackError.className = "show";
 
-                // this.snackError = true;
                 console.log('Required data not supplied!');
+
+                this.description = ''
+                this.img = ''
+                this.seasonField = ''
+                this.genderField = ''
+                this.priceField = ''
             }
 
             setTimeout(() =>  { 
@@ -96,7 +118,8 @@ document.addEventListener('alpine:init', () => {
                         .get('/api/garments')
                         .then(r => 
                             {this.garments = r.data.data})
-                        });  
+                            this.totalGarments() 
+                        }); 
             // this.$refs.snack.innerHTML = 'Garment Deleted'
             this.info_message = 'Garment deleted!'
             this.error = true;

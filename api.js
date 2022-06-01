@@ -160,13 +160,23 @@ module.exports = function (app, db) {
 	});
 
 	app.get('/api/garments/price/:price', async function (req, res) {
-		const price = Number(req.params.price);
 
 		let result	
 
 		if (price > 0) {
 			result = await db.many('select * from garment where price <= ($1)', [price]);
 		}
+	
+		res.json({
+			data: result
+		});
+	});
+
+	app.get('/api/garments/count', async function (req, res) {
+
+		let result
+		
+		result = await db.one('select count(*) from garment');
 	
 		res.json({
 			data: result

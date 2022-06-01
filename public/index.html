@@ -78,7 +78,7 @@
 	
 			</div>
 
-			<div class="snackError" x-bind:class="show ? 'show' : ''" x-text="info_message"></div>
+			<!-- <div class="snackError" x-model="message" x-text="info_message"></div> -->
 			<!-- <div class="snack" x-bind:class="snackError ? 'snackError' : ''" x-text="info_message"></div> -->
 			<div class="message" x-bind:class="error ? 'error' : ''" x-text="info_message"></div>
 				
@@ -140,16 +140,16 @@
 	
 	
 			<div>
-				<h2>Garments</h2>
+				<h2><span x-text="totalGarments()" x-html="length"></span> Garments</h2>
 				
-				<div class="garments" >
+				<div class="garments">
 					
 					<template x-for="garment in garments" >
 						<div class="garment">
 							<button class="delete" @click="deleteGarment(garment.id)"><ion-icon name="trash"></ion-icon></button>
 							<img x-bind:src="`images/${garment.img}`"><br>
 							<span x-text="garment.description" ></span><br>
-							<span x-text="garment.price" ></span>
+							R<span x-text="garment.price" ></span>
 							<!-- <p x-text="garment.season" ></p>
 							<p x-text="garment.gender" ></p> -->
 						</div>
