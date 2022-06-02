@@ -1,4 +1,5 @@
 const { query } = require("express");
+const jwt = require('jsonwebtoken')
 
 module.exports = function (app, db) {
 
@@ -9,13 +10,45 @@ module.exports = function (app, db) {
 		});
 	});
 
-	app.get('/api/garments', async function (req, res) {
+	function checkToken(req, res, next){
+	
+		const token =  req.headers.authorization && req.headers.authorization.split(" ")[1];
+	
+		// console.log(req.headers.authorization);
+	
+		if (!req.headers.authorization || !token){
+			res.sendStatus(401);
+			return;
+		}
+	
+		const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+	
+		const {username} = decoded;
+		
+		// console.log(username);
+	
+		// check if the username in the token is 'KimFrans'
+		if (username && username === 'KimFrans') {
+			next();
+		} else {
+			res.sendStatus(403);
+		}
+	
+	}
+
+	app.get('/api/garments', checkToken ,async function (req, res) {
 
 		const { gender, season } = req.query;
-		let garments =  await db.many('select * from garment');
+		// let rowCount
+		let garments =  await db.many('select * from garment order by id desc');
 		// add some sql queries that filter on gender & season
 		if(season && gender){
 			garments = await db.many('select * from garment where (season, gender) = ($1,$2)', [season, gender]);
+			// rowCount = await db.one('select case when :ROW_COUNT = 0 then "The previous query returned nothing" end');
+			// rowCount =  await db.many('select count(*) from garment')
+			// if(rowCount <= 0){
+			// 	garments = 'no data'
+			// }
 		}
 		else if(season){
 			garments = await db.many('select * from garment where season = $1', [season])
@@ -160,13 +193,14 @@ module.exports = function (app, db) {
 	});
 
 	app.get('/api/garments/price/:price', async function (req, res) {
-
+		const { price } = req.params;
 		let result	
 
-		if (price > 0) {
+		// if (price > 0) {
 			result = await db.many('select * from garment where price <= ($1)', [price]);
-		}
+		// }
 	
+
 		res.json({
 			data: result
 		});
@@ -182,6 +216,27 @@ module.exports = function (app, db) {
 			data: result
 		});
 	});
+
+
+
+	app.post('/api/token', function(req, res){
+		const {username} = req.body;
+		console.log(req.body)
+		
+			const token = jwt.sign({
+				username
+			}, process.env.ACCESS_TOKEN_SECRET);
+
+			// console.log(token);
+	
+			res.json({
+				token
+			});
+		
+	
+	});
+
+
 
 
 

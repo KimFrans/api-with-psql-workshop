@@ -18,6 +18,14 @@ document.addEventListener('alpine:init', () => {
         info_message : '',
         error : false,
 
+        username:'',
+        token:'',
+        decoded:'',
+        usermessage:'',
+        show:false,
+        hide:true,
+        unauthorised : false,
+        heading: true,
 
         data(){
             axios
@@ -40,7 +48,7 @@ document.addEventListener('alpine:init', () => {
             axios
                 .get(`/api/garments?gender=${this.gender}&season=${this.season}`)
                 .then(r =>
-                    {
+                    { 
                         this.garments = r.data.data 
                     });
 
@@ -48,10 +56,24 @@ document.addEventListener('alpine:init', () => {
 
 
         filterPrice(){
-            axios
-                .get(`/api/garments/price/${this.price}`)
-                .then(r =>
-                    {this.garments = r.data.data })
+            if(this.price > 0){
+                axios
+                    .get(`/api/garments/price/${this.price}`)
+                    .then(r =>
+                        {this.garments = r.data.data })
+                this.heading = true
+
+            }else{
+                this.info_message = `no garments found that are less than R${this.price}`
+                this.garments = []
+                this.heading = false
+
+                setTimeout(() =>  { 
+                    this.info_message = '';
+                    
+                }, 2000);
+                
+            }
         },
 
 
@@ -105,7 +127,7 @@ document.addEventListener('alpine:init', () => {
             setTimeout(() =>  { 
                 this.info_message = '';
                 this.error = false;
-              }, 3000);
+            }, 3000);
 
         },
         
@@ -128,7 +150,54 @@ document.addEventListener('alpine:init', () => {
             setTimeout(() =>  { 
                 this.info_message = '';
                 this.error = false;
-              }, 3000);
+            }, 3000);
+
+        },
+        
+        createToken(){
+            if (this.username != '') {
+                axios
+                    .post('/api/token/', {username : this.username})
+                    .then(r => {
+                        this.token = r.data.token;
+                        // console.log(r.data.token);
+                        // update Axios's latest token
+                        localStorage.setItem('token', this.token);
+                        // localStorage.setItem('token', JSON.stringify(this.token))
+                        this.usermessage = 'Your token has been created'
+                        this.unauthorised = false
+                        setTimeout(() => {
+                            this.usermessage = ''
+                            // this.unauthorised = false
+                        }, 3000);
+                        
+                        axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`;
+                    });
+            }
+            else{
+                this.usermessage = 'Please enter a username!'
+                this.unauthorised = true
+                setTimeout(() => {
+                    this.usermessage = ''
+                    // this.unauthorised = true
+                }, 3000);
+            }
+
+        },
+
+        login(){
+            axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`;
+
+            const url = `/api/garments`;
+            axios
+                .get(url)
+                .then(r => 
+                    {this.garments = r.data.data
+                        this.show = true
+                        this.hide = false
+                    }
+                )
+                
 
         },
 
