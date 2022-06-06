@@ -153,6 +153,32 @@ document.addEventListener('alpine:init', () => {
             }, 3000);
 
         },
+
+        // checkToken(req, res, next){
+	
+        //     const token =  req.headers.authorization && req.headers.authorization.split(" ")[1];
+        
+        //     // console.log(req.headers.authorization);
+        
+        //     if (!req.headers.authorization || !token){
+        //         res.sendStatus(401);
+        //         return;
+        //     }
+        
+        //     const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+        
+        //     const {username} = decoded;
+            
+        //     // console.log(username);
+        
+        //     // check if the username in the token is 'KimFrans'
+        //     if (username && username === 'KimFrans') {
+        //         next();
+        //     } else {
+        //         res.sendStatus(403);
+        //     }
+        
+        // },
         
         createToken(){
             if (this.username != '') {
@@ -160,7 +186,7 @@ document.addEventListener('alpine:init', () => {
                     .post('/api/token/', {username : this.username})
                     .then(r => {
                         this.token = r.data.token;
-                        // console.log(r.data.token);
+                        console.log(r.data.token);
                         // update Axios's latest token
                         localStorage.setItem('token', this.token);
                         // localStorage.setItem('token', JSON.stringify(this.token))
@@ -186,9 +212,10 @@ document.addEventListener('alpine:init', () => {
         },
 
         login(){
+            
             axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`;
 
-            const url = `/api/garments`;
+            const url = '/api/garment';
             axios
                 .get(url)
                 .then(r => 
