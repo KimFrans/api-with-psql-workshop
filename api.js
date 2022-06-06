@@ -36,7 +36,7 @@ module.exports = function (app, db) {
 	
 	}
 
-	app.get('/api/garments', checkToken, async function (req, res) {
+	app.get('/api/garments', async function (req, res) {
 
 		const { gender, season } = req.query;
 		// let rowCount
@@ -57,26 +57,26 @@ module.exports = function (app, db) {
 		})
 	});
 
-	// app.get('/api/garments',checkToken, async function (req, res) {
+	app.get('/api/garment',checkToken, async function (req, res) {
 
-	// 	const { gender, season } = req.query;
-	// 	// let rowCount
-	// 	let garments =  await db.many('select * from garment order by id desc');
-	// 	// add some sql queries that filter on gender & season
-	// 	if(season && gender){
-	// 		garments = await db.many('select * from garment where (season, gender) = ($1,$2)', [season, gender]);
-	// 	}
-	// 	else if(season){
-	// 		garments = await db.many('select * from garment where season = $1', [season])
-	// 	}
-	// 	else if(gender){
-	// 		garments = await db.many('select * from garment where gender = $1', [gender])
-	// 	}
-	// // console.log(garments.length);
-	// 	res.json({
-	// 		data: garments
-	// 	})
-	// });
+		const { gender, season } = req.query;
+		// let rowCount
+		let garments =  await db.many('select * from garment order by id desc');
+		// add some sql queries that filter on gender & season
+		if(season && gender){
+			garments = await db.many('select * from garment where (season, gender) = ($1,$2)', [season, gender]);
+		}
+		else if(season){
+			garments = await db.many('select * from garment where season = $1', [season])
+		}
+		else if(gender){
+			garments = await db.many('select * from garment where gender = $1', [gender])
+		}
+	// console.log(garments.length);
+		res.json({
+			data: garments
+		})
+	});
 
 	app.put('/api/garment/:id', async function (req, res) {
 
