@@ -235,9 +235,10 @@ module.exports = function (app, db) {
 
 
 
-	app.post('/api/token/', function(req, res){
+	app.post('/api/token/', async function(req, res){
 		const {username} = req.body;
 		console.log(req.body)
+		// console.log(username);
 		
 			const token = jwt.sign({
 				username
