@@ -212,10 +212,10 @@ document.addEventListener('alpine:init', () => {
         },
 
         login(){
-            
+
             axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`;
 
-            const url = '/api/garment';
+            const url = '/api/garments';
             axios
                 .get(url)
                 .then(r => 
