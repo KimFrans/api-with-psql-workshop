@@ -67,6 +67,7 @@ document.addEventListener('alpine:init', () => {
                 this.info_message = `no garments found that are less than R${this.price}`
                 this.garments = []
                 this.heading = false
+                this.error = true;
 
                 setTimeout(() =>  { 
                     this.info_message = '';
@@ -199,6 +200,7 @@ document.addEventListener('alpine:init', () => {
                         }, 3000);
                         
                         axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`;
+                    
                         
                     });
             }
